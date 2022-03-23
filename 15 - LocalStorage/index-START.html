@@ -28,8 +28,87 @@
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  const items = [];
+  const items = JSON.parse(localStorage.getItem('items')) || [];
 
+  function addItem(e) {
+    e.preventDefault();
+    const text = (this.querySelector('[name=item]')).value;
+    const item = {
+      text,
+      done: false
+    };
+    items.push(item)
+    populateList(items , itemsList)
+    localStorage.setItem('items', JSON.stringify(items))
+    this.reset()
+  };
+
+  function populateList(plates = [], platesList) {
+    platesList.innerHTML = plates.map((plate, i) => {
+      return `
+        <li>
+          <input type="checkbox" data-index=${i} id="item${i}" ${plate.done ? 'checked' : ''} />
+          <label for="item${i}">${plate.text}</label>
+        </li>
+      `;
+    }).join('');
+  }
+
+  function toggleDone(e) {
+    if (!e.target.matches('input')) return; // skip this unless it's an input
+    const el = e.target;
+    const index = el.dataset.index;
+    items[index].done = !items[index].done;
+    localStorage.setItem('items', JSON.stringify(items));
+    populateList(items, itemsList);
+  }
+
+  addItems.addEventListener('submit', addItem);
+  itemsList.addEventListener('click', toggleDone);
+
+  populateList(items, itemsList);
+  
+/*
+  using target on document
+  document.addEventListener( "click", someListener );
+
+function someListener(event){
+    let element = event.target;
+    if(element.tagName == 'A' && element.classList.contains("someBtn")){
+      console.log("hi");
+    }
+}
+  or 'best choice' using target on event delegation by attached event to parent element that exist 
+  or create a function
+
+function createEventListener() {
+  	var node = document.createElement('div');
+    if (node) {
+        node.addEventListener('click', function() {
+            console.log('Clicked Node');
+        });
+    } else {
+            console.error('No node');
+    }
+
+*/
+/*
+  not working if you add new element because there is no addeventlistener attached
+  to it 
+  populateList(items, itemsList);
+  const checkboxes = document.querySelectorAll('input');
+  checkboxes.forEach(input => input.addEventListener('click' , () => console.log('clicked')))
+  console.log(checkboxes)
+*/
+/*
+// you will have to add it outside the submit 'ودوخيني يا لمونه'
+  function handelEvent() {
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  checkboxes.forEach(input => input.addEventListener('click' , () => console.log('clicked')))
+  console.log(checkboxes)
+  }
+  addItems.addEventListener('submit', handelEvent);
+*/
 </script>
 
 

@@ -38,6 +38,10 @@ body {
   width: 100%;
 }
 
+video::-webkit-media-controls {
+  display:none !important;
+}
+
 .player__video {
   width: 100%;
 }
@@ -101,7 +105,7 @@ body {
   width: 50%;
   background: #ffc600;
   flex: 0;
-  flex-basis: 50%;
+  flex-basis: 1%;
 }
 
 /* unholy css to style input type="range" */

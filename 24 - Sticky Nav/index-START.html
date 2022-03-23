@@ -54,6 +54,21 @@
   </div>
 
 <script>
+  const nav = document.querySelector('#main');
+  let topOfNav = nav.offsetTop;
+//https://css-tricks.com/how-to-detect-when-a-sticky-element-gets-pinned/
+  function fixNav() {
+    // console.log(topOfNav, window.scrollY)
+      if (window.scrollY >= topOfNav) {
+        //to animate before the nav hits div
+        document.querySelector('.site-wrap').style.paddingTop = nav.offsetHeight + 'px';
+        document.body.classList.add('fixed-nav');
+      } else {
+        document.body.classList.remove('fixed-nav');
+      }
+    }
+
+  window.addEventListener('scroll', fixNav);
 
 </script>
 
